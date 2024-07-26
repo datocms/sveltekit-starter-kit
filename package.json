@@ -1,0 +1,49 @@
+{
+	"name": "sveltekit-starter-kit",
+	"version": "0.0.1",
+	"private": true,
+	"scripts": {
+		"dev": "vite dev",
+		"build": "vite build",
+		"preview": "vite preview",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"generate-schema": "dotenv -c -- bash -c 'gql.tada generate schema https://graphql.datocms.com --header \"X-Exclude-Invalid: true\" --header \"Authorization: $PRIVATE_DATOCMS_PUBLISHED_CONTENT_CDA_TOKEN\"'",
+		"lint": "prettier --check .",
+		"format": "prettier --write .",
+		"prepare": "npx simple-git-hooks && npm run generate-schema"
+	},
+	"devDependencies": {
+		"@sveltejs/adapter-auto": "^3.0.0",
+		"@sveltejs/kit": "^2.0.0",
+		"@sveltejs/vite-plugin-svelte": "^3.0.0",
+		"@types/jsdom": "^21.1.7",
+		"@types/jsonwebtoken": "^9.0.6",
+		"dotenv-cli": "^7.4.2",
+		"prettier": "^3.1.1",
+		"prettier-plugin-svelte": "^3.1.2",
+		"simple-git-hooks": "^2.11.1",
+		"svelte": "^4.2.7",
+		"svelte-check": "^3.6.0",
+		"tslib": "^2.4.1",
+		"typescript": "^5.0.0",
+		"vite": "^5.0.3"
+	},
+	"type": "module",
+	"dependencies": {
+		"@datocms/cda-client": "^0.2.0",
+		"@datocms/cma-client": "^3.3.5",
+		"@datocms/svelte": "^3.0.4",
+		"@mux/mux-player": "^2.8.0",
+		"datocms-structured-text-to-plain-text": "^4.0.1",
+		"datocms-structured-text-utils": "^4.0.1",
+		"gql.tada": "^1.8.2",
+		"highlight.js": "^11.10.0",
+		"jsdom": "^24.1.1",
+		"jsonwebtoken": "^9.0.2",
+		"serialize-error": "^11.0.3"
+	},
+	"simple-git-hooks": {
+		"pre-commit": "npm run format"
+	}
+}
