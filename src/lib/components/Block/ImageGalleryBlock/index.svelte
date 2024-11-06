@@ -3,10 +3,14 @@
   import ResponsiveImage from '$lib/components/ResponsiveImage/index.svelte';
   import { ImageGalleryBlockFragment } from './fragments';
 
-  export let data: FragmentOf<typeof ImageGalleryBlockFragment>;
+  interface Props {
+    data: FragmentOf<typeof ImageGalleryBlockFragment>;
+  }
+
+  let { data }: Props = $props();
 
   // Read unmasked data from fragment
-  $: unmaskedData = readFragment(ImageGalleryBlockFragment, data);
+  let unmaskedData = $derived(readFragment(ImageGalleryBlockFragment, data));
 </script>
 
 <div class="gallery">

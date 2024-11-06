@@ -3,9 +3,13 @@
   import { type FragmentOf, readFragment } from '$lib/datocms/graphql';
   import { ImageBlockFragment } from './fragments';
 
-  export let data: FragmentOf<typeof ImageBlockFragment>;
+  interface Props {
+    data: FragmentOf<typeof ImageBlockFragment>;
+  }
 
-  $: unmaskedData = readFragment(ImageBlockFragment, data);
+  let { data }: Props = $props();
+
+  let unmaskedData = $derived(readFragment(ImageBlockFragment, data));
 </script>
 
 <figure>

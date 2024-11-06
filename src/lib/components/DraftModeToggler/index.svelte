@@ -2,7 +2,7 @@
   import { env as publicEnv } from '$env/dynamic/public';
   import { onMount } from 'svelte';
 
-  let isDraftModeEnabled = false;
+  let isDraftModeEnabled = $state(false);
 
   onMount(() => {
     // See: https://developer.mozilla.org/en-US/docs/web/api/document/cookie#example_2_get_a_sample_cookie_named_test2
@@ -41,7 +41,7 @@
 </script>
 
 {#if isDraftModeEnabled}
-  <button type="button" on:click={handleClick}>Disable Draft Mode</button>
+  <button type="button" onclick={handleClick}>Disable Draft Mode</button>
 {:else}
-  <button type="button" on:click={handleClick}>Enable Draft Mode</button>
+  <button type="button" onclick={handleClick}>Enable Draft Mode</button>
 {/if}

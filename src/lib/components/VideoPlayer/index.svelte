@@ -4,13 +4,13 @@
   import type { ComponentProps } from 'svelte';
   import { VideoPlayerFragment } from './fragments';
 
-  type $$Props = Omit<ComponentProps<VideoPlayer>, 'data'> & {
+  type Props = Omit<ComponentProps<VideoPlayer>, 'data'> & {
     data: FragmentOf<typeof VideoPlayerFragment>;
   };
 
-  export let data: $$Props['data'];
+  let { data, ...rest }: Props = $props();
 
-  $: unmaskedData = readFragment(VideoPlayerFragment, data);
+  let unmaskedData = $derived(readFragment(VideoPlayerFragment, data));
 </script>
 
 <!--
@@ -20,4 +20,4 @@
   wherever needed.
 -->
 
-<VideoPlayer {...$$restProps} data={unmaskedData.video} accentColor="var(--color-accent)" />
+<VideoPlayer {...rest} data={unmaskedData.video} accentColor="var(--color-accent)" />

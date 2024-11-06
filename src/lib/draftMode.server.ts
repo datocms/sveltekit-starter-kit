@@ -20,6 +20,7 @@ export function enableDraftMode(event: RequestEvent) {
     path: '/',
     partitioned: true,
     sameSite: 'none',
+    secure: true,
     httpOnly: false,
   });
 }
@@ -32,6 +33,7 @@ export function disableDraftMode(event: RequestEvent) {
     path: '/',
     partitioned: true,
     sameSite: 'none',
+    secure: true,
     httpOnly: false,
   });
 }

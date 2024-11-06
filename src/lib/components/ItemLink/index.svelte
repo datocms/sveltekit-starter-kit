@@ -3,14 +3,20 @@
   import { readFragment, type FragmentOf } from '$lib/datocms/graphql';
   import { defaultMetaTransformer } from 'datocms-structured-text-generic-html-renderer';
   import { ItemLinkFragment } from './fragments';
+  import type { Snippet } from 'svelte';
 
-  export let node: ItemLink;
-  export let link: FragmentOf<typeof ItemLinkFragment>;
+  interface Props {
+    node: ItemLink;
+    link: FragmentOf<typeof ItemLinkFragment>;
+    children: Snippet;
+  }
 
-  $: unmaskedLink = readFragment(ItemLinkFragment, link);
+  let { node, link, children }: Props = $props();
 
-  $: ({ meta } = node);
-  $: transformedMeta = meta ? defaultMetaTransformer({ node, meta }) : null;
+  let unmaskedLink = $derived(readFragment(ItemLinkFragment, link));
+
+  let { meta } = $derived(node);
+  let transformedMeta = $derived(meta ? defaultMetaTransformer({ node, meta }) : null);
 </script>
 
 <!--
@@ -21,6 +27,6 @@
 
 {#if unmaskedLink.__typename === 'PageRecord'}
   <a {...transformedMeta} href="/">
-    <slot />
+    {@render children()}
   </a>
 {/if}

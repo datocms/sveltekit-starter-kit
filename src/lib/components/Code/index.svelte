@@ -1,7 +1,11 @@
 <script lang="ts">
   import type { Code } from 'datocms-structured-text-utils';
 
-  export let node: Code;
+  interface Props {
+    node: Code;
+  }
+
+  let { node }: Props = $props();
 
   function highlight(node: HTMLElement) {
     const run = async () => {

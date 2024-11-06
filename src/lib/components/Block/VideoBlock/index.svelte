@@ -3,10 +3,14 @@
   import VideoPlayer from '$lib/components/VideoPlayer/index.svelte';
   import { VideoBlockFragment } from './fragments';
 
-  export let data: FragmentOf<typeof VideoBlockFragment>;
+  interface Props {
+    data: FragmentOf<typeof VideoBlockFragment>;
+  }
+
+  let { data }: Props = $props();
 
   // Read unmasked data from fragment
-  $: unmaskedData = readFragment(VideoBlockFragment, data);
+  let unmaskedData = $derived(readFragment(VideoBlockFragment, data));
 </script>
 
 <figure>

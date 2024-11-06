@@ -2,9 +2,15 @@
   import { Head, querySubscription } from '@datocms/svelte';
   import type { LayoutData } from './$types';
   import DraftModeToggler from '$lib/components/DraftModeToggler/index.svelte';
+  import type { Snippet } from 'svelte';
 
-  export let data: LayoutData;
-  $: subscription = querySubscription(data.subscription);
+  interface Props {
+    data: LayoutData;
+    children: Snippet;
+  }
+
+  let { data, children }: Props = $props();
+  let subscription = $derived(querySubscription(data.subscription));
 </script>
 
 <svelte:head>
@@ -29,5 +35,5 @@
 </header>
 
 <main>
-  <slot />
+  {@render children()}
 </main>

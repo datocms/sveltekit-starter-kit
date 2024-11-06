@@ -4,9 +4,13 @@
   import ImageGalleryBlock from '$lib/components/Block/ImageGalleryBlock/index.svelte';
   import { BlockFragment } from './fragments';
 
-  export let block: FragmentOf<typeof BlockFragment>;
+  interface Props {
+    block: FragmentOf<typeof BlockFragment>;
+  }
 
-  $: unmaskedBlock = readFragment(BlockFragment, block);
+  let { block }: Props = $props();
+
+  let unmaskedBlock = $derived(readFragment(BlockFragment, block));
 </script>
 
 <div>

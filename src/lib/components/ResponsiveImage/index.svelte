@@ -4,13 +4,13 @@
   import { NakedImage } from '@datocms/svelte';
   import { ResponsiveImageFragment } from './fragments';
 
-  type $$Props = Omit<ComponentProps<NakedImage>, 'data'> & {
+  type Props = Omit<ComponentProps<NakedImage>, 'data'> & {
     data: FragmentOf<typeof ResponsiveImageFragment>;
   };
 
-  export let data: $$Props['data'];
+  let { data, ...rest }: Props = $props();
 
-  $: unmaskedData = readFragment(ResponsiveImageFragment, data);
+  let unmaskedData = $derived(readFragment(ResponsiveImageFragment, data));
 </script>
 
 <!--
@@ -20,4 +20,4 @@
   wherever needed.
 -->
 
-<NakedImage {...$$restProps} data={unmaskedData} />
+<NakedImage {...rest} data={unmaskedData} />

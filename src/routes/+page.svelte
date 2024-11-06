@@ -14,9 +14,13 @@
   import Code from '$lib/components/Code/index.svelte';
   import type { PageData } from './$types';
 
-  export let data: PageData;
-  $: subscription = querySubscription(data.subscription);
-  $: page = $subscription.data?.page;
+  interface Props {
+    data: PageData;
+  }
+
+  let { data }: Props = $props();
+  let subscription = $derived(querySubscription(data.subscription));
+  let page = $derived($subscription.data?.page);
 </script>
 
 {#if page}

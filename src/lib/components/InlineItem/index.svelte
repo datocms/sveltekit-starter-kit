@@ -2,9 +2,13 @@
   import { readFragment, type FragmentOf } from '$lib/datocms/graphql';
   import { InlineItemFragment } from './fragments';
 
-  export let link: FragmentOf<typeof InlineItemFragment>;
+  interface Props {
+    link: FragmentOf<typeof InlineItemFragment>;
+  }
 
-  $: unmaskedLink = readFragment(InlineItemFragment, link);
+  let { link }: Props = $props();
+
+  let unmaskedLink = $derived(readFragment(InlineItemFragment, link));
 </script>
 
 <!--
