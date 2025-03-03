@@ -2,6 +2,7 @@ import { env } from '$env/dynamic/private';
 import { env as publicEnv } from '$env/dynamic/public';
 import type { RequestEvent } from '@sveltejs/kit';
 import jwt, { type JwtPayload } from 'jsonwebtoken';
+import type {CookieSerializeOptions} from 'cookie';
 
 /**
  * Generates a JSON Web Token (JWT) that is used as a signed cookie for entering
@@ -11,31 +12,27 @@ function jwtToken() {
   return jwt.sign({ enabled: true }, env.PRIVATE_SIGNED_COOKIE_JWT_SECRET);
 }
 
+const DRAFT_MODE_COOKIE_SERIALIZE_OPTIONS:CookieSerializeOptions & {path: string} = {
+  path: '/',
+  partitioned: true,
+  sameSite: "none",
+  secure: true,
+  httpOnly: false,
+};
+
 /**
  * To be used on API routes: sets the signed cookie required to enter Draft
  * Mode.
  */
 export function enableDraftMode(event: RequestEvent) {
-  event.cookies.set(publicEnv.PUBLIC_DRAFT_MODE_COOKIE_NAME, jwtToken(), {
-    path: '/',
-    partitioned: true,
-    sameSite: 'none',
-    secure: true,
-    httpOnly: false,
-  });
+  event.cookies.set(publicEnv.PUBLIC_DRAFT_MODE_COOKIE_NAME, jwtToken(), DRAFT_MODE_COOKIE_SERIALIZE_OPTIONS);
 }
 
 /**
  * To be used on API routes: disables Draft Mode by deleting the cookie.
  */
 export function disableDraftMode(event: RequestEvent) {
-  event.cookies.delete(publicEnv.PUBLIC_DRAFT_MODE_COOKIE_NAME, {
-    path: '/',
-    partitioned: true,
-    sameSite: 'none',
-    secure: true,
-    httpOnly: false,
-  });
+  event.cookies.delete(publicEnv.PUBLIC_DRAFT_MODE_COOKIE_NAME, DRAFT_MODE_COOKIE_SERIALIZE_OPTIONS);
 }
 
 /**

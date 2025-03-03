@@ -1,7 +1,7 @@
 import { env } from '$env/dynamic/private';
 import { enableDraftMode } from '$lib/draftMode.server';
 import { redirect } from '@sveltejs/kit';
-import { handleUnexpectedError, invalidRequestResponse } from '../../utils';
+import { handleUnexpectedError, invalidRequestResponse, isRelativeUrl } from '../../utils';
 import type { RequestHandler } from './$types';
 
 /**
@@ -21,7 +21,7 @@ export const GET: RequestHandler = (event) => {
     }
 
     // Avoid open redirect vulnerabilities
-    if (redirectUrl.startsWith('http://') || redirectUrl.startsWith('https://')) {
+    if (!isRelativeUrl(redirectUrl)) {
       return invalidRequestResponse('URL must be relative!', 422);
     }
 
