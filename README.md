@@ -72,6 +72,7 @@ Your website should be up and running on [http://localhost:3000](http://localhos
 It is highly recommended to follow [these instructions](https://gql-tada.0no.co/get-started/installation#vscode-setup) for an optimal experience with Visual Studio Code, including features like diagnostics, auto-completions, and type hovers for GraphQL.
 
 ## Using the Web Previews Plugin
+
 If you're using this starter kit with the popular [Web Previews plugin](https://www.datocms.com/marketplace/plugins/i/datocms-plugin-web-previews), we already include a CORS-ready endpoint for you, so there's very little setup needed.
 
 You don't have to create or edit any files in this repo. Instead, you only need to specify the "Preview webhook URL" in the plugin settings.
@@ -80,7 +81,7 @@ If your site is deployed to www.example.com, then the webhook URL should be `htt
 
 That endpoint URL corresponds to the file [src/routes/api/preview-links/+server.ts](src/routes/api/preview-links/+server.ts) in this repo.
 
-The secret token is defined as the env var `PRIVATE_SECRET_API_TOKEN` in [.env.example](.env.example). If you deployed this starter from our marketplace, its default value will be `secretTokenProtectingWebhookEndpointsFromBeingCalledByAnyone`. If you manually deployed it, you'll have to set that token. It can be any URL-safe string as long as the `PRIVATE_SECRET_API_TOKEN` env var and the `token` query parameter both match. 
+The secret token is defined as the env var `PRIVATE_SECRET_API_TOKEN` in [.env.example](.env.example). If you deployed this starter from our marketplace, its default value will be `secretTokenProtectingWebhookEndpointsFromBeingCalledByAnyone`. If you manually deployed it, you'll have to set that token. It can be any URL-safe string as long as the `PRIVATE_SECRET_API_TOKEN` env var and the `token` query parameter both match.
 
 ## <!--datocms-autoinclude-footer start-->
 
