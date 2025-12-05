@@ -3,7 +3,7 @@ import { recordToSlug, recordToWebsiteRoute } from '$lib/datocms/recordInfo';
 import { draftModeHeaders } from '$lib/draftMode.server';
 import { buildClient } from '@datocms/cma-client';
 import { json } from '@sveltejs/kit';
-import { JSDOM } from 'jsdom';
+import { parse } from 'node-html-parser';
 import { handleUnexpectedError, invalidRequestResponse, withCORS } from '../utils';
 import type { RequestHandler } from './$types';
 
@@ -84,13 +84,13 @@ export const GET: RequestHandler = async ({ url }) => {
     }
 
     // Parse the HTML response into a DOM tree
-    const { document } = new JSDOM(await pageRequest.text()).window;
+    const root = parse(await pageRequest.text());
 
     /*
      * To get only the page content without the header/footer, use a specific
      * selector on the page instead of taking everything from the body.
      */
-    const contentEl = document.querySelector('body');
+    const contentEl = root.querySelector('body');
 
     if (!contentEl) {
       return invalidRequestResponse('No content found');
@@ -98,12 +98,12 @@ export const GET: RequestHandler = async ({ url }) => {
 
     // Build the response in the format expected by the plugin
     const response: SeoAnalysis = {
-      locale: document.querySelector('html')?.getAttribute('lang') || 'en',
+      locale: root.querySelector('html')?.getAttribute('lang') || 'en',
       slug: slug ?? 'unknown',
       permalink: websitePath,
-      title: document.querySelector('title')?.textContent ?? null,
+      title: root.querySelector('title')?.text ?? null,
       description:
-        document.querySelector('meta[name="description"]')?.getAttribute('content') ?? null,
+        root.querySelector('meta[name="description"]')?.getAttribute('content') ?? null,
       content: contentEl.innerHTML,
     };
 
