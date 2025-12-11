@@ -1,5 +1,6 @@
 import { env as privateEnv } from '$env/dynamic/private';
 import { recordToSlug, recordToWebsiteRoute } from '$lib/datocms/recordInfo';
+import type { AnyModel } from '$lib/datocms/cma-types';
 import { draftModeHeaders } from '$lib/draftMode.server';
 import { buildClient } from '@datocms/cma-client';
 import { json } from '@sveltejs/kit';
@@ -57,12 +58,12 @@ export const GET: RequestHandler = async ({ url }) => {
       environment: sandboxEnvironmentId,
     });
 
-    const { data: item } = await client.items.rawFind(itemId);
+    const { data: item } = await client.items.rawFind<AnyModel>(itemId);
 
     // We can use this info to generate the frontend URL, and the page slug
-    const websitePath = await recordToWebsiteRoute(item, itemTypeApiKey, locale);
+    const websitePath = recordToWebsiteRoute(item, itemTypeId, locale);
 
-    const slug = await recordToSlug(item, itemTypeApiKey, locale);
+    const slug = recordToSlug(item, itemTypeId, locale);
 
     if (!websitePath) {
       return invalidRequestResponse(
@@ -102,8 +103,7 @@ export const GET: RequestHandler = async ({ url }) => {
       slug: slug ?? 'unknown',
       permalink: websitePath,
       title: root.querySelector('title')?.text ?? null,
-      description:
-        root.querySelector('meta[name="description"]')?.getAttribute('content') ?? null,
+      description: root.querySelector('meta[name="description"]')?.getAttribute('content') ?? null,
       content: contentEl.innerHTML,
     };
 
