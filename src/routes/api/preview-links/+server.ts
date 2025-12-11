@@ -43,7 +43,7 @@ export const POST: RequestHandler = async ({ url, request }) => {
     const { item, itemType, locale } = await request.json();
 
     // We can use this info to generate the frontend URL associated
-    const recordUrl = await recordToWebsiteRoute(item, itemType.attributes.api_key, locale);
+    const recordUrl = recordToWebsiteRoute(item, itemType.id, locale);
 
     const response: WebPreviewsResponse = { previewLinks: [] };
 
