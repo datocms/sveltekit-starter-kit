@@ -24,12 +24,13 @@ import type { AnyModel } from './cma-types';
 export function recordToWebsiteRoute(
   item: RawApiTypes.Item<AnyModel>,
   itemTypeId: string,
-  _locale: string,
+  locale: string,
 ): string | null {
   switch (itemTypeId) {
     // Page model
     case 'JdG722SGTSG_jEB1Jx-0XA': {
-      return '/';
+      const slug = recordToSlug(item, itemTypeId, locale);
+      return slug ? `/page/${slug}` : null;
     }
     /*
      * Add more cases here as you add more models to your DatoCMS schema.
@@ -55,9 +56,9 @@ export function recordToSlug(
     case 'JdG722SGTSG_jEB1Jx-0XA': {
       /*
        * Using generated types, TypeScript knows exactly which fields exist.
-       * `item.attributes.title` is fully typed - no casts needed!
+       * `item.attributes.slug` is fully typed - no casts needed!
        */
-      return item.attributes.title;
+      return item.attributes.slug;
     }
     /*
      * Add more cases here as you add more models to your DatoCMS schema.

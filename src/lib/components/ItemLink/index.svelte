@@ -26,7 +26,7 @@
 -->
 
 {#if unmaskedLink.__typename === 'PageRecord'}
-  <a {...transformedMeta} href="/">
+  <a {...transformedMeta} href="/page/{unmaskedLink.slug}">
     {@render children()}
   </a>
 {/if}

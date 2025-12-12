@@ -21,6 +21,7 @@ export const ItemLinkFragment = graphql(/* GraphQL */ `
     }
     ... on PageRecord {
       title
+      slug
     }
   }
 `);

@@ -17,5 +17,5 @@
 -->
 
 {#if unmaskedLink.__typename === 'PageRecord'}
-  <a href="/" class="pill">{unmaskedLink.title}</a>
+  <a href="/page/{unmaskedLink.slug}" class="pill">{unmaskedLink.title}</a>
 {/if}

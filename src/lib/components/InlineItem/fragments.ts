@@ -21,6 +21,7 @@ export const InlineItemFragment = graphql(/* GraphQL */ `
     }
     ... on PageRecord {
       title
+      slug
     }
   }
 `);
