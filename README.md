@@ -53,7 +53,7 @@ Copy the values of the following tokens into the specified environment variable:
 
 - `PRIVATE_DATOCMS_PUBLISHED_CONTENT_CDA_TOKEN`: CDA Only (Published)
 - `PRIVATE_DATOCMS_DRAFT_CONTENT_CDA_TOKEN`: CDA Only (Draft)
-- `PRIVATE_DATOCMS_CMA_TOKEN`: CMA Only (Admin)
+- `PRIVATE_DATOCMS_CMA_TOKEN`: CMA Only (Read)
 
 Then set both `PRIVATE_SECRET_API_TOKEN` and `PRIVATE_SIGNED_COOKIE_JWT_SECRET` by generating two different secure strings (you can use `openssl rand -hex 32` or any other cryptographically-secure random string generator):
 
