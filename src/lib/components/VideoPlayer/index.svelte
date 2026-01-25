@@ -20,4 +20,4 @@
   wherever needed.
 -->
 
-<VideoPlayer {...rest} data={unmaskedData.video} accentColor="var(--color-accent)" />
+<VideoPlayer {...rest} data={unmaskedData.video} accentColor="var(--bg-accent)" />
