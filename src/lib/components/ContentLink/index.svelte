@@ -2,6 +2,7 @@
   import { ContentLink } from '@datocms/svelte';
   import { goto } from '$app/navigation';
   import { page } from '$app/stores';
+  import { browser } from '$app/environment';
 
   /**
    * ContentLink component enables click-to-edit overlays for DatoCMS content.
@@ -35,5 +36,5 @@
 <ContentLink
   onNavigateTo={(path) => goto(path)}
   currentPath={$page.url.pathname}
-  enableClickToEdit={true}
+  enableClickToEdit={browser && window.matchMedia('(hover: hover)').matches}
 />
