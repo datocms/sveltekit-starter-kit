@@ -9,7 +9,7 @@ import type { RequestHandler } from './$types';
 export const GET: RequestHandler = (event) => {
   const { url } = event;
   // Parse query string parameters
-  const redirectUrl = url.searchParams.get('url') || '/';
+  const redirectUrl = url.searchParams.get('redirect') || '/';
 
   try {
     // Avoid open redirect vulnerabilities

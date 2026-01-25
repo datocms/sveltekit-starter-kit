@@ -37,20 +37,25 @@
     of a significantly reduced and tailored set of possible tags
     for editorial content, along with the capability to create hyperlinks
     to other DatoCMS records and embed custom DatoCMS blocks.
+
+    The data-datocms-content-link-group attribute enables ContentLink to
+    properly handle click-to-edit for structured text and embedded blocks.
   -->
-  <StructuredText
-    data={page.structuredText}
-    components={[
-      // Although the component knows how to convert all "standard" elements
-      // (headings, bullet lists, etc.) into HTML, it's possible to customize
-      // the rendering of each node:
-      [isCode, Code],
-      [isHeading, HeadingWithAnchorLink],
-      [isBlock, Block],
-      [isInlineItem, InlineItem],
-      [isItemLink, ItemLink],
-    ]}
-  />
+  <div data-datocms-content-link-group>
+    <StructuredText
+      data={page.structuredText}
+      components={[
+        // Although the component knows how to convert all "standard" elements
+        // (headings, bullet lists, etc.) into HTML, it's possible to customize
+        // the rendering of each node:
+        [isCode, Code],
+        [isHeading, HeadingWithAnchorLink],
+        [isBlock, Block],
+        [isInlineItem, InlineItem],
+        [isItemLink, ItemLink],
+      ]}
+    />
+  </div>
 
   <footer>Published at {page._firstPublishedAt}</footer>
 {/if}

@@ -28,6 +28,20 @@ export async function generateRealtimeSubscription<Result, Variables>(
     token: draftModeEnabled
       ? privateEnv.PRIVATE_DATOCMS_DRAFT_CONTENT_CDA_TOKEN
       : privateEnv.PRIVATE_DATOCMS_PUBLISHED_CONTENT_CDA_TOKEN,
+    /*
+     * Enable content-link for draft content only. This embeds stega-encoded
+     * metadata in text fields, which the @datocms/content-link package uses
+     * to create click-to-edit overlays. When editors click on content, they're
+     * taken directly to the corresponding field in the DatoCMS editor.
+     *
+     * This works both:
+     * - On the standalone website (opens DatoCMS in a new tab)
+     * - Inside the Web Previews plugin Visual mode (opens field in side panel)
+     *
+     * Only enabled for draft content to avoid the overhead in production.
+     */
+    contentLink: draftModeEnabled ? 'v1' : undefined,
+    baseEditingUrl: draftModeEnabled ? privateEnv.PRIVATE_DATOCMS_BASE_EDITING_URL : undefined,
   });
 
   // If Draft Mode is not active, there is no need to activate the
@@ -49,5 +63,7 @@ export async function generateRealtimeSubscription<Result, Variables>(
     token: privateEnv.PRIVATE_DATOCMS_DRAFT_CONTENT_CDA_TOKEN,
     includeDrafts: true,
     excludeInvalid: true,
+    contentLink: 'v1',
+    baseEditingUrl: privateEnv.PRIVATE_DATOCMS_BASE_EDITING_URL,
   };
 }

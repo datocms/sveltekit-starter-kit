@@ -13,10 +13,10 @@
   let unmaskedData = $derived(readFragment(ImageGalleryBlockFragment, data));
 </script>
 
-<div class="gallery">
+<div class="gallery" data-datocms-content-link-boundary>
   <div>
     {#each unmaskedData.assets as asset (asset.id)}
-      <figure>
+      <figure data-datocms-content-link-group>
         <!-- Display responsive image for each asset -->
         <ResponsiveImage data={asset.responsiveImage} imgStyle="width: auto;" />
         <!-- Display title for each asset -->

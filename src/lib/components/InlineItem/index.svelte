@@ -17,5 +17,7 @@
 -->
 
 {#if unmaskedLink.__typename === 'PageRecord'}
-  <a href="/page/{unmaskedLink.slug}" class="pill">{unmaskedLink.title}</a>
+  <a href="/page/{unmaskedLink.slug}" class="pill" data-datocms-content-link-group
+    >{unmaskedLink.title}</a
+  >
 {/if}

@@ -18,6 +18,9 @@
       "type": "datocmsAccessToken",
       "tokenName": "CMA Only (Read)"
     },
+    "PRIVATE_DATOCMS_BASE_EDITING_URL": {
+      "type": "datocmsProjectUrl"
+    },
     "PRIVATE_SECRET_API_TOKEN": {
       "type": "string",
       "value": "secretTokenProtectingWebhookEndpointsFromBeingCalledByAnyone"

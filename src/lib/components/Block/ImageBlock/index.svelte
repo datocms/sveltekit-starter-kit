@@ -12,7 +12,7 @@
   let unmaskedData = $derived(readFragment(ImageBlockFragment, data));
 </script>
 
-<figure>
+<figure data-datocms-content-link-group>
   <!-- Display responsive image -->
   <ResponsiveImage data={unmaskedData.asset.responsiveImage} />
   <!-- Display image title -->
