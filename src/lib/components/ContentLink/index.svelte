@@ -2,7 +2,6 @@
   import { ContentLink } from '@datocms/svelte';
   import { goto } from '$app/navigation';
   import { page } from '$app/stores';
-  import { browser } from '$app/environment';
 
   /**
    * ContentLink component enables click-to-edit overlays for DatoCMS content.
@@ -29,12 +28,18 @@
    * This integration is completely automatic when running inside the plugin's iframe,
    * with graceful fallback to opening edit URLs in a new tab when running standalone.
    *
+   * For more complex UI requirements (e.g., a toolbar to toggle click-to-edit mode),
+   * you can use the `createController` function from the `@datocms/content-link` package
+   * directly. This gives you full control over the controller lifecycle and methods like
+   * `enableClickToEdit()`, `disableClickToEdit()`, `isClickToEditEnabled()`, and `flashAll()`.
+   *
    * @see https://www.datocms.com/marketplace/plugins/i/datocms-plugin-web-previews
+   * @see https://www.npmjs.com/package/@datocms/content-link
    */
 </script>
 
 <ContentLink
   onNavigateTo={(path) => goto(path)}
   currentPath={$page.url.pathname}
-  enableClickToEdit={browser && window.matchMedia('(hover: hover)').matches}
+  enableClickToEdit={{ hoverOnly: true }}
 />
