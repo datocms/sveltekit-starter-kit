@@ -34,7 +34,7 @@
   "dependencies": {
     "@datocms/cda-client": "^0.2.10",
     "@datocms/cma-client": "^5.2.6",
-    "@datocms/svelte": "^4.2.7",
+    "@datocms/svelte": "^4.2.9",
     "@mux/mux-player": "^3.10.1",
     "datocms-structured-text-to-plain-text": "^5.1.7",
     "datocms-structured-text-utils": "^5.1.7",
