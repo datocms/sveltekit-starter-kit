@@ -48,6 +48,7 @@
     "pre-commit": "npm run format"
   },
   "overrides": {
-    "cookie": "^0.7.2"
+    "cookie": "^0.7.2",
+    "@datocms/content-link": "^0.3.17"
   }
 }
