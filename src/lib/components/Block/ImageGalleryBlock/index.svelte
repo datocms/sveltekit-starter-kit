@@ -13,7 +13,7 @@
   let unmaskedData = $derived(readFragment(ImageGalleryBlockFragment, data));
 </script>
 
-<div class="gallery" data-datocms-content-link-boundary>
+<div class="gallery">
   <div>
     {#each unmaskedData.assets as asset (asset.id)}
       <figure data-datocms-content-link-group>

@@ -13,7 +13,7 @@
   let unmaskedBlock = $derived(readFragment(BlockFragment, block));
 </script>
 
-<div>
+<div data-datocms-content-link-boundary>
   {#if unmaskedBlock.__typename === 'ImageBlockRecord'}
     <ImageBlock data={unmaskedBlock} />
   {:else if unmaskedBlock.__typename === 'ImageGalleryBlockRecord'}
