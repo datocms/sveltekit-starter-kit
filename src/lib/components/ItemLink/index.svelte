@@ -2,6 +2,7 @@
   import type { ItemLink } from 'datocms-structured-text-utils';
   import { readFragment, type FragmentOf } from '$lib/datocms/graphql';
   import { defaultMetaTransformer } from 'datocms-structured-text-generic-html-renderer';
+  import { buildUrlForPage } from '$lib/datocms/gqlUrlBuilder/page';
   import { ItemLinkFragment } from './fragments';
   import type { Snippet } from 'svelte';
 
@@ -20,13 +21,15 @@
 </script>
 
 <!--
-  If the structured text includes a link to another DatoCMS record,
-  it's your decision to determine where the link should lead, or if
-  you wish to customize its appearance:
+  Link-to-record components own their visual representation; the URL is
+  built by the per-model URL builder. Renderer-provided meta (e.g. target,
+  rel) is honored via {...transformedMeta}. Note: no
+  `data-datocms-content-link-boundary` on link-to-record components — the
+  renderer handles those boundaries.
 -->
 
 {#if unmaskedLink.__typename === 'PageRecord'}
-  <a {...transformedMeta} href="/page/{unmaskedLink.slug}">
+  <a {...transformedMeta} href={buildUrlForPage(unmaskedLink)}>
     {@render children()}
   </a>
 {/if}

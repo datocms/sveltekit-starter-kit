@@ -11,6 +11,11 @@ import type { PageServerLoad } from './$types';
  * The GraphQL query that will be executed for this route to generate the page
  * content and metadata.
  *
+ * The page composes one query from the fragments exported by every
+ * sub-component it renders: the imports list mirrors the second argument of
+ * `graphql(...)` — adding `...FooFragment` to the query string means also
+ * adding `FooFragment` to the imports and to the composition array.
+ *
  * Thanks to gql.tada, the result will be fully typed!
  */
 const query = graphql(

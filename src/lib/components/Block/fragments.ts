@@ -23,15 +23,9 @@ export const BlockFragment = graphql(
         id
         __typename
       }
-      ... on ImageBlockRecord {
-        ...ImageBlockFragment
-      }
-      ... on ImageGalleryBlockRecord {
-        ...ImageGalleryBlockFragment
-      }
-      ... on VideoBlockRecord {
-        ...VideoBlockFragment
-      }
+      ...ImageBlockFragment
+      ...ImageGalleryBlockFragment
+      ...VideoBlockFragment
     }
   `,
   [ImageBlockFragment, ImageGalleryBlockFragment, VideoBlockFragment],
