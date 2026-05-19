@@ -8,7 +8,7 @@
     "preview": "vite preview",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-    "generate-schema": "dotenv -c -- bash -c 'gql.tada generate schema https://graphql.datocms.com --header \"X-Exclude-Invalid: true\" --header \"Authorization: $PRIVATE_DATOCMS_PUBLISHED_CONTENT_CDA_TOKEN\"'",
+    "generate-schema": "dotenv -c -- bash -c 'gql.tada generate schema https://graphql.datocms.com --header \"X-Exclude-Invalid: true\" --header \"Authorization: $PRIVATE_DATOCMS_PUBLISHED_CONTENT_CDA_TOKEN\" && gql.tada generate-output'",
     "generate-cma-types": "dotenv -c -- bash -c 'npx datocms schema:generate src/lib/datocms/cma-types.ts --api-token=$PRIVATE_DATOCMS_CMA_TOKEN'",
     "lint": "prettier --check .",
     "format": "prettier --write .",
