@@ -1,6 +1,6 @@
 import { disableDraftMode } from '$lib/draftMode.server';
 import { redirect } from '@sveltejs/kit';
-import { handleUnexpectedError, invalidRequestResponse, isRelativeUrl } from '../../utils';
+import { handleUnexpectedError, invalidRequestResponse, isSafeRedirectUrl } from '../../utils';
 import type { RequestHandler } from './$types';
 
 /**
@@ -13,7 +13,7 @@ export const GET: RequestHandler = (event) => {
 
   try {
     // Avoid open redirect vulnerabilities
-    if (!isRelativeUrl(redirectUrl)) {
+    if (!isSafeRedirectUrl(redirectUrl, url)) {
       return invalidRequestResponse('URL must be relative!', 422);
     }
 
