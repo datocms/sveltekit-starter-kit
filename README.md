@@ -69,7 +69,7 @@ npm install
 npm run dev
 ```
 
-Your website should be up and running on [http://localhost:3000](http://localhost:3000)!
+Your website should be up and running on [http://localhost:5173](http://localhost:5173)!
 
 ## Click-to-edit overlays
 
@@ -114,10 +114,10 @@ If you're **developing locally** or **deploying outside the one-click flow**, th
 
 DatoCMS is a cloud service, and the Web Previews plugin runs inside the DatoCMS interface — not on your machine. When it needs preview links or wants to enable Draft Mode, **DatoCMS's own servers make an HTTP request to the URLs you configure here**. The traffic originates from DatoCMS in the cloud and has to travel _to_ your app.
 
-That's why `http://localhost:3000` doesn't work: `localhost` means "the machine making the request," so DatoCMS would be calling itself, not your dev server. For DatoCMS to reach your app, the app has to be available at a public internet address.
+That's why `http://localhost:5173` doesn't work: `localhost` means "the machine making the request," so DatoCMS would be calling itself, not your dev server. For DatoCMS to reach your app, the app has to be available at a public internet address.
 
 - **Deployed app**: use its public URL (e.g. `https://your-app.example.com`).
-- **Local development**: put a tunnel in front of your dev server — e.g. `ngrok http 3000` or `cloudflared tunnel` — which gives you a public URL that forwards to your local server.
+- **Local development**: put a tunnel in front of your dev server — e.g. `ngrok http 5173` or `cloudflared tunnel` — which gives you a public URL that forwards to your local server.
 
 In the steps below, replace `<BASE_URL>` with that public URL and `<SECRET>` with the value of your `PRIVATE_SECRET_API_TOKEN` environment variable.
 
