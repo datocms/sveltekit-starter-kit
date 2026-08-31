@@ -27,10 +27,10 @@ async function installWebPreviewsPlugin(client: Client, baseUrl: string) {
       frontends: [
         {
           name: 'Production',
-          previewWebhook: new URL(
-            `/api/preview-links?token=${privateEnv.PRIVATE_SECRET_API_TOKEN}`,
-            baseUrl,
-          ).toString(),
+          previewWebhook: new URL('/api/preview-links', baseUrl).toString(),
+          customHeaders: [
+            { name: 'Authorization', value: `Bearer ${privateEnv.PRIVATE_SECRET_API_TOKEN}` },
+          ],
           visualEditing: {
             enableDraftModeUrl: new URL(
               `/api/draft-mode/enable?token=${privateEnv.PRIVATE_SECRET_API_TOKEN}`,
@@ -57,10 +57,10 @@ async function installSEOAnalysisPlugin(client: Client, baseUrl: string) {
 
   await client.plugins.update(seoPlugin.id, {
     parameters: {
-      htmlGeneratorUrl: new URL(
-        `/api/seo-analysis?token=${privateEnv.PRIVATE_SECRET_API_TOKEN}`,
-        baseUrl,
-      ).toString(),
+      htmlGeneratorUrl: new URL('/api/seo-analysis', baseUrl).toString(),
+      customHeaders: [
+        { name: 'Authorization', value: `Bearer ${privateEnv.PRIVATE_SECRET_API_TOKEN}` },
+      ],
       autoApplyToFieldsWithApiKey: 'seo_analysis',
       setSeoReadabilityAnalysisFieldExtensionId: true,
     },
