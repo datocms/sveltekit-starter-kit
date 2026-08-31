@@ -1,6 +1,11 @@
 import { env as privateEnv } from '$env/dynamic/private';
 import { type Client, buildClient } from '@datocms/cma-client';
-import { handleUnexpectedError, successfulResponse, withCORS } from '../utils';
+import {
+  handleUnexpectedError,
+  invalidRequestResponse,
+  successfulResponse,
+  withCORS,
+} from '../utils';
 import type { RequestHandler } from './$types';
 
 /*
@@ -67,6 +72,22 @@ async function installSEOAnalysisPlugin(client: Client, baseUrl: string) {
   });
 }
 
+/**
+ * The DatoCMS API token arrives in the request body, so without this check the
+ * endpoint would happily write our SECRET_API_TOKEN into any project a caller
+ * names, and the caller could then read it back from their own project.
+ */
+async function ensureSameProject(client: Client, ourApiToken: string) {
+  const ourClient = buildClient({ apiToken: ourApiToken });
+
+  const [callerProject, ourProject] = await Promise.all([
+    client.site.find(),
+    ourClient.site.find(),
+  ]);
+
+  return callerProject.id === ourProject.id;
+}
+
 export const POST: RequestHandler = async ({ request }) => {
   const body = await request.json();
 
@@ -74,6 +95,10 @@ export const POST: RequestHandler = async ({ request }) => {
   const baseUrl = body.frontendUrl as string;
 
   try {
+    if (!(await ensureSameProject(client, privateEnv.PRIVATE_DATOCMS_CMA_TOKEN))) {
+      return invalidRequestResponse('Invalid token', 401);
+    }
+
     await Promise.all([
       installWebPreviewsPlugin(client, baseUrl),
       installSEOAnalysisPlugin(client, baseUrl),
