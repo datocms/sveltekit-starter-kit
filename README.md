@@ -121,6 +121,8 @@ That's why `http://localhost:5173` doesn't work: `localhost` means "the machine 
 
 In the steps below, replace `<BASE_URL>` with that public URL and `<SECRET>` with the value of your `PRIVATE_SECRET_API_TOKEN` environment variable.
 
+> If you deployed this starter with the one-click flow from the DatoCMS marketplace, that value was randomly generated for you during the setup, and shown to you on the last step of the wizard. If you no longer have it, set a new one among the environment variables of your hosting provider.
+
 #### 2. Install the Web Previews plugin
 
 In your DatoCMS project, go to **Settings > Plugins > Add a new plugin**, search for **Web Previews**, and install it.
@@ -155,11 +157,11 @@ If you're using this starter kit with the popular [Web Previews plugin](https://
 
 You don't have to create or edit any files in this repo. Instead, you only need to specify the "Preview webhook URL" in the plugin settings.
 
-If your site is deployed to www.example.com, then the webhook URL should be `https://www.example.com/api/preview-links?token=secretTokenProtectingWebhookEndpointsFromBeingCalledByAnyone`.
+If your site is deployed to www.example.com, then the webhook URL should be `https://www.example.com/api/preview-links?token=<PRIVATE_SECRET_API_TOKEN>`, where `<PRIVATE_SECRET_API_TOKEN>` is the value of your `PRIVATE_SECRET_API_TOKEN` environment variable.
 
 That endpoint URL corresponds to the file [src/routes/api/preview-links/+server.ts](src/routes/api/preview-links/+server.ts) in this repo.
 
-The secret token is defined as the env var `PRIVATE_SECRET_API_TOKEN` in [.env.example](.env.example). If you deployed this starter from our marketplace, its default value will be `secretTokenProtectingWebhookEndpointsFromBeingCalledByAnyone`. If you manually deployed it, you'll have to set that token. It can be any URL-safe string as long as the `PRIVATE_SECRET_API_TOKEN` env var and the `token` query parameter both match.
+The secret token is defined as the env var `PRIVATE_SECRET_API_TOKEN` in [.env.example](.env.example). If you deployed this starter from our marketplace, a random value was generated for you and shown on the last step of the setup wizard; if you no longer have it, set a new one from your hosting provider's environment variable settings. If you manually deployed it, you'll have to set that token yourself. It can be any URL-safe string as long as the `PRIVATE_SECRET_API_TOKEN` env var and the `token` query parameter both match.
 
 ## <!--datocms-autoinclude-footer start-->
 
