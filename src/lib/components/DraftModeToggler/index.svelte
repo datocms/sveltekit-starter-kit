@@ -20,7 +20,10 @@
     if (isDraftModeEnabled) {
       response = await fetch('/api/draft-mode/disable');
     } else {
-      const token = prompt('To enter Draft Mode, you need to insert the PRIVATE_SECRET_API_TOKEN:');
+      const token = prompt(
+        'To enter Draft Mode, you need to insert the PRIVATE_SECRET_API_TOKEN:',
+        publicEnv.PUBLIC_DRAFT_MODE_DEMO_PASSWORD,
+      );
       if (!token) {
         return;
       }
