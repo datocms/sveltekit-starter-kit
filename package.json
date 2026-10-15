@@ -18,39 +18,50 @@
     "prepare": "npx simple-git-hooks && npm run generate-schema && npm run generate-cma-types"
   },
   "devDependencies": {
-    "@sveltejs/adapter-auto": "^7.0.0",
-    "@sveltejs/kit": "^2.49.2",
-    "@sveltejs/vite-plugin-svelte": "^6.2.1",
-    "@types/jsdom": "^27.0.0",
+    "@sveltejs/adapter-auto": "^7.0.1",
+    "@sveltejs/kit": "^2.70.3",
+    "@sveltejs/vite-plugin-svelte": "^7.3.1",
+    "@types/jsdom": "^30.0.0",
     "@types/jsonwebtoken": "^9.0.10",
-    "datocms": "^4.0.26",
+    "datocms": "^4.2.0",
     "dotenv-cli": "^11.0.0",
-    "prettier": "^3.7.4",
-    "prettier-plugin-svelte": "^3.4.0",
-    "simple-git-hooks": "^2.13.1",
-    "svelte": "^5.45.8",
-    "svelte-check": "^4.3.4",
+    "prettier": "^3.9.10",
+    "prettier-plugin-svelte": "^4.1.1",
+    "simple-git-hooks": "^2.14.0",
+    "svelte": "^5.57.2",
+    "svelte-check": "^4.7.6",
     "tslib": "^2.8.1",
-    "typescript": "^5.9.3",
-    "vite": "^7.2.7"
+    "typescript": "^6.0.3",
+    "vite": "^8.3.4"
   },
   "type": "module",
   "dependencies": {
-    "@datocms/cda-client": "^0.3.1",
-    "@datocms/cma-client": "^6.1.0",
-    "@datocms/svelte": "^4.2.13",
-    "@mux/mux-player": "^3.10.1",
+    "@datocms/cda-client": "^0.3.2",
+    "@datocms/cma-client": "^6.8.0",
+    "@datocms/svelte": "^4.2.16",
+    "@mux/mux-player": "^3.14.0",
     "datocms-structured-text-to-plain-text": "^6.0.0",
     "datocms-structured-text-utils": "^6.0.1",
-    "gql.tada": "^1.9.0",
-    "highlight.js": "^11.11.1",
+    "gql.tada": "^1.11.4",
+    "highlight.js": "^11.12.0",
     "jsonwebtoken": "^9.0.3",
-    "node-html-parser": "^7.0.1"
+    "node-html-parser": "^9.0.4"
   },
   "simple-git-hooks": {
     "pre-commit": "npm run format"
   },
   "overrides": {
-    "cookie": "^0.7.2"
+    "@sveltejs/kit": {
+      "cookie": "^0.7.2"
+    },
+    "tty-table": {
+      "csv": "^6.6.4"
+    }
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true,
+    "fsevents@2.3.3": true,
+    "simple-git-hooks@2.14.0": true,
+    "yarn@1.22.22": true
   }
 }
