@@ -1,5 +1,7 @@
 import { env as privateEnv } from '$env/dynamic/private';
+import type { AnyModel } from '$lib/datocms/cma-types';
 import { recordToWebsiteRoute } from '$lib/datocms/recordInfo';
+import { buildClient } from '@datocms/cma-client';
 import { json } from '@sveltejs/kit';
 import { handleUnexpectedError, invalidRequestResponse, withCORS } from '../utils';
 import type { RequestHandler } from './$types';
@@ -40,10 +42,40 @@ export const POST: RequestHandler = async ({ request }) => {
      * along with information about which locale they are currently viewing in
      * the interface
      */
-    const { item, locale } = await request.json();
+    const { item, locale, environmentId } = await request.json();
 
     // We can use this info to generate the frontend URL associated
     const recordUrl = await recordToWebsiteRoute(item, locale);
+
+    /**
+     * The plugin only sends the current (draft) version of the record. If it has
+     * unpublished changes (e.g. a modified slug), the published URL might differ,
+     * so we compute it from the published version.
+     *
+     * See "How the preview links are built" in the README.
+     */
+    let publishedUrl = recordUrl;
+
+    if (recordUrl && item.meta.status === 'updated') {
+      try {
+        const client = buildClient({
+          apiToken: privateEnv.PRIVATE_DATOCMS_CMA_TOKEN,
+          environment: environmentId,
+        });
+
+        const { data: publishedItem } = await client.items.rawFind<AnyModel>(item.id, {
+          version: 'published',
+        });
+
+        publishedUrl = await recordToWebsiteRoute(publishedItem, locale);
+      } catch (error) {
+        /**
+         * If the published version can't be fetched (e.g. missing CMA token),
+         * fall back to the current URL instead of losing every preview link.
+         */
+        console.error(error);
+      }
+    }
 
     const response: WebPreviewsResponse = { previewLinks: [] };
 
@@ -71,7 +103,7 @@ export const POST: RequestHandler = async ({ request }) => {
       }
 
       /** If status is not draft, it means that it has a published version! */
-      if (item.meta.status !== 'draft') {
+      if (publishedUrl && item.meta.status !== 'draft') {
         /**
          * Generate a URL that first exits from Draft Mode, and then
          * redirects to the desired URL.
@@ -83,7 +115,7 @@ export const POST: RequestHandler = async ({ request }) => {
              * We generate the URL in a way that it first passes through the
              * endpoint that disables the Draft Mode.
              */
-            `/api/draft-mode/disable?redirect=${recordUrl}`,
+            `/api/draft-mode/disable?redirect=${publishedUrl}`,
             request.url,
           ).toString(),
         });
