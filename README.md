@@ -165,6 +165,35 @@ That endpoint URL corresponds to the file [src/routes/api/preview-links/+server.
 
 The secret token is defined as the env var `PRIVATE_SECRET_API_TOKEN` in [.env.example](.env.example). If you deployed this starter from our marketplace, a random value was generated for you and shown on the last step of the setup wizard; if you no longer have it, set a new one from your hosting provider's environment variable settings. If you manually deployed it, you'll have to set that token yourself. It can be any URL-safe string as long as the `PRIVATE_SECRET_API_TOKEN` env var and the `token` query parameter both match.
 
+## How the preview links are built
+
+The [Web Previews plugin](https://www.datocms.com/marketplace/plugins/i/datocms-plugin-web-previews) calls [`/api/preview-links`](src/routes/api/preview-links/+server.ts) whenever you open a record, and shows the links it returns in the record sidebar. Which links you get depends on the record's status:
+
+| Record status | What it means                             | Links returned                              |
+| ------------- | ----------------------------------------- | ------------------------------------------- |
+| `draft`       | Never published                           | **Draft version**                           |
+| `published`   | No changes since the last publish         | **Published version**                       |
+| `updated`     | Published, with changes not yet published | **Draft version** and **Published version** |
+
+The plugin sends the endpoint only the _current_ version of the record, the one you're editing. That's all the **Draft version** link needs. For an `updated` record, though, the current version can disagree with what's live: if you changed a field the URL depends on (typically the slug), it gives you the new URL, while the published site still serves the old one.
+
+For example, say you change a page's slug from `about` to `about-us` and don't publish yet. The draft is at `/page/about-us`, but the published page is still at `/page/about`. A **Published version** link built from the current version would point to `/page/about-us` and end in a 404.
+
+So, for `updated` records only, the endpoint also fetches the published version of the record from the Content Management API, and builds the **Published version** link from it:
+
+```ts
+const { data: publishedItem } = await client.items.rawFind<AnyModel>(item.id, {
+  version: 'published',
+});
+```
+
+Some details worth knowing:
+
+- The request uses the `PRIVATE_DATOCMS_CMA_TOKEN` token (CMA Only (Read)) and the environment the plugin is running in (`environmentId`), so it works in sandbox environments too.
+- `draft` and `published` records don't trigger it: either there's no published version, or it matches the current one.
+- If the request fails (for example, because `PRIVATE_DATOCMS_CMA_TOKEN` isn't set), the error is logged and the **Published version** link falls back to the current URL. You still get both links, but the published one may 404 if the slug changed.
+- Both links go through `recordToWebsiteRoute()` in [`src/lib/datocms/recordInfo.ts`](src/lib/datocms/recordInfo.ts). When you add a model there, its preview links handle the `updated` case without further changes.
+
 ## <!--datocms-autoinclude-footer start-->
 
 ---
